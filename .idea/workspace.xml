@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0ec329c-b0ff-4f24-9007-c73423c77fb7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/pointer-network/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/pointer-network/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pointer-network/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/pointer-network/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pointer-network/sroie/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/pointer-network/sroie/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +32,7 @@
       <updated>1629799461204</updated>
       <workItem from="1629799462305" duration="342000" />
       <workItem from="1629799808921" duration="112000" />
-      <workItem from="1629799924095" duration="96000" />
+      <workItem from="1629799924095" duration="565000" />
     </task>
     <servers />
   </component>

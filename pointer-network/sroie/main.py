@@ -121,7 +121,6 @@ if __name__ == "__main__":
             print('positions', tensors_data[mode].positions.shape)
             print('target', tensors_data[mode].target.shape)
 
-        from torch.utils.data import TensorDataset, DataLoader
 
     # Wrapping it up in a TensorDataset
     datasets = {
