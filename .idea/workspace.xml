@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0ec329c-b0ff-4f24-9007-c73423c77fb7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pointer-network/sroie/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/pointer-network/sroie/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +21,36 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pointer-network" />
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="blog-post-content" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pointer-network" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pointer-network/sroie/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -32,7 +62,7 @@
       <updated>1629799461204</updated>
       <workItem from="1629799462305" duration="342000" />
       <workItem from="1629799808921" duration="112000" />
-      <workItem from="1629799924095" duration="565000" />
+      <workItem from="1629799924095" duration="1925000" />
     </task>
     <servers />
   </component>
@@ -40,9 +70,63 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2659" y="275" key="FileChooserDialogImpl" timestamp="1629799920244">
+    <state x="2334" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1629801207115">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2659" y="275" key="FileChooserDialogImpl/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629799920244" />
+    <state x="2334" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801207115" />
+    <state x="2652" y="445" key="#xdebugger.evaluate" timestamp="1629801679080">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2652" y="445" key="#xdebugger.evaluate/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801679080" />
+    <state x="2659" y="275" key="FileChooserDialogImpl" timestamp="1629801205450">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2659" y="275" key="FileChooserDialogImpl/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801205450" />
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1629801748614">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801748614" />
+    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1629801748614">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801748614" />
+    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1629801748614">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801748614" />
+    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1629801748614">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801748614" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1629801754007">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801754007" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1629801754007">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801754007" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1629801754007">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801754007" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1629801754007">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1827.1080/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629801754007" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pointer-network/sroie/main.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/blog_post_content$main.coverage" NAME="main Coverage Results" MODIFIED="1629801748440" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pointer-network" />
   </component>
 </project>

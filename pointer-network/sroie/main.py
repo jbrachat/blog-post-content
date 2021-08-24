@@ -10,6 +10,7 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 import warnings
 from torch.utils.data import TensorDataset, DataLoader
+import sys,os
 
 field_key = "company"
 display = True
@@ -30,9 +31,9 @@ best_step = 179
 if __name__ == "__main__":
 
     documents = generate_documents(field_key,
-                                   r"C:\Users\brachj\PycharmProjects\pointer-network\sroie\ocr",
-                                   r"C:\Users\brachj\PycharmProjects\pointer-network\sroie\labels",
-                                   r"C:\Users\brachj\PycharmProjects\pointer-network\sroie\images")
+                                   os.path.join(os.path.dirname(__file__), "ocr"),
+                                   os.path.join(os.path.dirname(__file__), "labels"),
+                                   os.path.join(os.path.dirname(__file__), "images"))
 
     # The ground truth is a rectangle on the page that delimites where the ground is located. On the following example
     # it is displayed in red, all the tokens transcribed by pytesseract are in blue.
@@ -161,7 +162,8 @@ if __name__ == "__main__":
             print(
                 f"Best validation: best_step={best_step}, best_loss={min(val_losses)}, best_metric={val_metrics[best_step]}")
 
-    model = torch.load(f'models/model_{best_step}.torch')
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = torch.load(f'models/model_{best_step}.torch', map_location=device)
 
     # Test:
     if display:
