@@ -6,7 +6,6 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
-import pytesseract
 import shapely.geometry
 import torch
 from PIL import Image, ImageDraw
@@ -16,28 +15,15 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from model import Model
+from sroie.preprocess_data import bbox_denormalized
 
 
-def OCR(image_path: str) -> List[Dict[str, Any]]:
-    image = Image.open(image_path)
-    image_data = pytesseract.image_to_data(image, output_type='data.frame')
-    image_data = image_data.loc[
-        image_data.text.apply(lambda x: pd.notnull(x) and x != '')
-    ]
-    image_data['position'] = image_data.apply(
-        lambda row: [
-            int(row['left']),
-            int(row['top']),
-            int(row['left']) + int(row['width']),
-            int(row['top']) + int(row['height']),
-        ],
-        axis=1,
-    )
-    return image_data[['text', 'position']].to_dict(orient='record')
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 def display_doc(doc: Dict[str, Any], predicted_tokens: Optional[List[int]] = None):
     image = Image.open(doc['image_path'])
+    width, height = image.size
     draw = ImageDraw.Draw(image)
     if predicted_tokens is None:
         subset_of_tokens = range(0, len(doc['OCR']))
@@ -47,8 +33,8 @@ def display_doc(doc: Dict[str, Any], predicted_tokens: Optional[List[int]] = Non
 
     for i in subset_of_tokens:
         token = doc['OCR'][i]
-        draw.rectangle(token['position'], outline='blue')
-    draw.rectangle(doc['ground_truth'], outline='red', width=3)
+        draw.rectangle(bbox_denormalized(token['position'], width, height), outline='blue')
+    draw.rectangle(bbox_denormalized(doc['ground_truth'], width, height), outline='red', width=3)
     return image
 
 
@@ -113,7 +99,8 @@ class Tensors:
 
 
 def make_tensors(
-    dataset: List[Tuple[str, List[Tuple[List[int], List[float]]], List[int]]]
+    dataset: List[Tuple[str, List[Tuple[List[int], List[float]]], List[int]]],
+    max_seq_len: int
 ) -> Tensors:
 
     list_keys, list_words, list_positions, list_targets = [], [], [], []
@@ -125,7 +112,7 @@ def make_tensors(
         list_keys.append(int(key))
         list_words.append(words)
         list_positions.append(positions)
-        list_targets.append(torch.tensor(target + [0]))
+        list_targets.append(torch.tensor(target[0: max_seq_len - 1] + [0] * max(1, max_seq_len - len(target))))
 
     shapes = [words.shape for words in list_words]
     max_shape_0 = (
@@ -170,16 +157,18 @@ def loss_function(
 
 
 def get_val_loss(
-    model: Model, optimizer: torch.optim.Optimizer, val_loader: DataLoader
+    model: Model, val_loader: DataLoader
 ) -> float:
-    epoch_losses = []
-    for _, words, positions, target in val_loader:
-        overall_probabilities, peak_indices = model.forward(words, positions)
-        loss = loss_function(overall_probabilities, target)
-        optimizer.zero_grad()
-        epoch_losses.append(loss.item())
-    val_loss = np.mean(epoch_losses)
-    return val_loss
+    with torch.no_grad():
+        model.to(device)
+        epoch_losses = []
+        for _, words, positions, target in val_loader:
+            words, positions, target = words.to(device), positions.to(device), target.to(device)
+            overall_probabilities, peak_indices = model.forward(words, positions)
+            loss = loss_function(overall_probabilities, target)
+            epoch_losses.append(loss.item())
+        val_loss = np.mean(epoch_losses)
+        return val_loss
 
 
 def train_model(
@@ -194,12 +183,14 @@ def train_model(
         os.mkdir('models')
 
     train_losses, val_losses, validation_metrics = [], [], []
+    model.to(device)
     for epoch in range(n_epochs):
 
         # Train
         model.train()
         epoch_losses = []
         for _, words, positions, target in tqdm(train_loader):
+            words, positions, target = words.to(device), positions.to(device), target.to(device)
             overall_probabilities, peak_indices = model.forward(words, positions)
             loss = loss_function(overall_probabilities, target)
             optimizer.zero_grad()
@@ -212,11 +203,11 @@ def train_model(
 
         # Validation
         model.eval()
+        val_loss = get_val_loss(model, val_loader)
 
-        val_loss = get_val_loss(model, optimizer, val_loader)
         val_losses.append(val_loss)
 
-        val_threshold_data = get_threshold_data(model, optimizer, val_loader)
+        val_threshold_data = get_threshold_data(model, val_loader)
         val_metrics = get_metrics(val_threshold_data)
         validation_metrics.append(val_metrics)
 
@@ -229,34 +220,36 @@ def train_model(
 
 
 def get_threshold_data(
-    model: Model, optimizer: torch.optim.Optimizer, loader: DataLoader
+    model: Model, loader: DataLoader
 ) -> pd.DataFrame:
     model.eval()
-    confidence_and_is_correct = []
-    for _, words, positions, target in loader:
-        overall_probabilities, peak_indices = model.forward(words, positions)
-        optimizer.zero_grad()
-        predicted_tokens = torch.argmax(overall_probabilities, 2)
-        prediction_confidence = (
-            overall_probabilities.exp().max(axis=2).values.min(axis=1).values.tolist()
-        )
+    model.to(device)
+    with torch.no_grad():
+        confidence_and_is_correct = []
+        for _, words, positions, target in loader:
+            words, positions, target = words.to(device), positions.to(device), target.to(device)
+            overall_probabilities, peak_indices = model.forward(words, positions)
+            predicted_tokens = torch.argmax(overall_probabilities, 2)
+            prediction_confidence = (
+                overall_probabilities.exp().max(axis=2).values.min(axis=1).values.tolist()
+            )
 
-        prediction = np.array(
-            [
-                set(
-                    single_prediction
-                )  # We don't care about the ordering or repetitions
-                for single_prediction in predicted_tokens.tolist()
-            ]
-        )
-        target = np.array(list(map(set, target.tolist())))
-        prediction_correct = prediction == target
-        confidence_and_is_correct += list(
-            zip(prediction_confidence, prediction_correct)
-        )
-    threshold_data = pd.DataFrame(confidence_and_is_correct)
-    threshold_data.columns = ['confidence', 'is_correct']
-    return threshold_data
+            prediction = np.array(
+                [
+                    set(
+                        single_prediction
+                    )  # We don't care about the ordering or repetitions
+                    for single_prediction in predicted_tokens.tolist()
+                ]
+            )
+            target = np.array(list(map(set, target.tolist())))
+            prediction_correct = prediction == target
+            confidence_and_is_correct += list(
+                zip(prediction_confidence, prediction_correct)
+            )
+        threshold_data = pd.DataFrame(confidence_and_is_correct)
+        threshold_data.columns = ['confidence', 'is_correct']
+        return threshold_data
 
 
 def get_metrics(threshold_data: pd.DataFrame) -> Dict[str, float]:

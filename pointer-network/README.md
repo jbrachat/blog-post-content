@@ -16,3 +16,14 @@ This folder contains five files/directory:
     3. Data pre-processing
     4. Model training
     5. Model results 
+    
+Package summary:
+
+conda install -c conda-forge scikit-learn  
+conda install pandas  
+conda install -c anaconda pillow  
+conda install -c conda-forge editdistance  
+conda install -c pytorch pytorch  
+conda install -c esri shapely  
+conda install -c conda-forge tqdm  
+conda install -c conda-forge matplotlib
