@@ -1,16 +1,17 @@
+import json
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+import random
+import sys
+import torch
+import warnings
+from model import Model
 from sroie.preprocess_data import generate_documents
+from torch.utils.data import TensorDataset, DataLoader
+from tqdm import tqdm
 from utils import display_doc, text_pre_processing, make_tensors, loss_function, get_loaders, train_model, \
     get_threshold_data, get_metrics, find_threshold
-from model import Model
-import random
-import torch
-import json
-import numpy as np
-from tqdm import tqdm
-import matplotlib.pyplot as plt
-import warnings
-from torch.utils.data import TensorDataset, DataLoader
-import sys,os
 
 field_key = "company"
 display = True
